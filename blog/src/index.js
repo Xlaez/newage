@@ -15,6 +15,7 @@ server.app.use(helmet());
 server.app.use(cors({ origin: '*' }));
 
 connect(mongoConfigs.url, mongoConfigs.options)
+  // eslint-disable-next-line no-unused-vars
   .then((_result) => {
     server.listen();
   })
