@@ -1,5 +1,8 @@
 const { Router } = require('owl-factory');
-const { registerUser, validateAccount } = require('../controllers/auth.controller');
+const { registerUser, validateAccount, login, updatePassword } = require('../controllers/auth.controller');
+const validateUser = require('../middlewares/verifyUser.middleware');
+const authValidfate = require('../validations/auth.validator');
+const validate = require('../validations/validate.validator');
 
 class AuthRouter {
   constructor() {
@@ -9,8 +12,10 @@ class AuthRouter {
   }
 
   Routes() {
-    this.router.post(`${this.path}/register`, registerUser);
-    this.router.post(`${this.path}/validate`, validateAccount);
+    this.router.post(`${this.path}/register`, validate(authValidfate.signup), registerUser);
+    this.router.post(`${this.path}/validate`, validate(authValidfate.validateAcc), validateAccount);
+    this.router.post(`${this.path}/login`, validate(authValidfate.login), login);
+    this.router.patch(`${this.path}/update/password`, validate(authValidfate.updatePassword), validateUser, updatePassword);
   }
 }
 
