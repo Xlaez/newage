@@ -4,11 +4,10 @@ const OwlFactory = require('owl-factory');
 const { connect } = require('mongoose');
 const { env, port } = require('./configs');
 const mongoConfigs = require('./configs/db.configs');
-const ExampleRouter = require('./routes/example.routes');
 const AuthRouter = require('./routes/auth.routes');
 const UserRouter = require('./routes/user.routes');
 
-const server = new OwlFactory([new ExampleRouter(), new AuthRouter(), new UserRouter()], process.env.PORT || port, env, {
+const server = new OwlFactory([new AuthRouter(), new UserRouter()], process.env.PORT || port, env, {
   mongodbConfig: null,
 });
 
