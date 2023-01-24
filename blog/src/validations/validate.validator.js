@@ -1,3 +1,7 @@
+/**
+ * @author Utibeabasi Ekong <https://github.com/Xlaez>
+ */
+
 const Joi = require('joi');
 const { httpStatus, AppRes } = require('owl-factory');
 const pick = require('../utils/pick.utils');

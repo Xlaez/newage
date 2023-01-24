@@ -1,3 +1,7 @@
+/**
+ * @author Utibeabasi Ekong <https://github.com/Xlaez>
+ */
+
 const helmet = require('helmet');
 const cors = require('cors');
 const OwlFactory = require('owl-factory');
@@ -6,8 +10,9 @@ const { env, port } = require('./configs');
 const mongoConfigs = require('./configs/db.configs');
 const AuthRouter = require('./routes/auth.routes');
 const UserRouter = require('./routes/user.routes');
+const PostRouter = require('./routes/post.routes');
 
-const server = new OwlFactory([new AuthRouter(), new UserRouter()], process.env.PORT || port, env, {
+const server = new OwlFactory([new AuthRouter(), new UserRouter(), new PostRouter()], process.env.PORT || port, env, {
   mongodbConfig: null,
 });
 

@@ -1,3 +1,7 @@
+/**
+ * @author Utibeabasi Ekong <https://github.com/Xlaez>
+ */
+
 const { Router } = require('owl-factory');
 const { updateProfile, getUsers, getUser } = require('../controllers/user.controller');
 const validateUser = require('../middlewares/verifyUser.middleware');

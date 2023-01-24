@@ -1,3 +1,7 @@
+/**
+ * @author Utibeabasi Ekong <https://github.com/Xlaez>
+ */
+
 const { mongoose } = require('./index');
 
 const mongoConfig = {

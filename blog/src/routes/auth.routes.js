@@ -1,3 +1,7 @@
+/**
+ * @author Utibeabasi Ekong <https://github.com/Xlaez>
+ */
+
 const { Router } = require('owl-factory');
 const { registerUser, validateAccount, login, updatePassword } = require('../controllers/auth.controller');
 const validateUser = require('../middlewares/verifyUser.middleware');
