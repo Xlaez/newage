@@ -1,5 +1,9 @@
+/**
+ * @author Utibeabasi Ekong <https://github.com/Xlaez>
+ */
 const { Schema, model } = require('mongoose');
 const paginate = require('mongoose-paginate-v2');
+const categories = require('./other/category.post.models');
 
 const schema = new Schema({
   title: {
@@ -14,8 +18,10 @@ const schema = new Schema({
   },
   body: {
     type: String,
-    required: true,
     minlength: 20, // inrease later
+  },
+  image: {
+    type: Schema.Types.Mixed, // to allow for multiple file upload
   },
   views: {
     type: Number,
@@ -34,6 +40,10 @@ const schema = new Schema({
   author: {
     type: Schema.Types.ObjectId,
     ref: 'users',
+  },
+  category: {
+    type: String,
+    enum: categories, // you can update to suit your needs
   },
   commentCount: {
     type: Number,

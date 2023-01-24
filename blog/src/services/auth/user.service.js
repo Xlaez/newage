@@ -1,3 +1,7 @@
+/**
+ * @author Utibeabasi Ekong <https://github.com/Xlaez>
+ */
+
 const { AppRes, httpStatus } = require('owl-factory');
 const tokenService = require('./token.service');
 const mailSender = require('./email.service');

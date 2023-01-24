@@ -1,3 +1,7 @@
+/**
+ * @author Utibeabasi Ekong <https://github.com/Xlaez>
+ */
+
 const Joi = require('joi');
 
 const updateProfile = {

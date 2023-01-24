@@ -1,3 +1,7 @@
+/**
+ * @author Utibeabasi Ekong <https://github.com/Xlaez>
+ */
+
 const { Schema, model } = require('mongoose');
 const paginate = require('mongoose-paginate-v2');
 const { compare, hash } = require('bcrypt');

@@ -1,3 +1,7 @@
+/**
+ * @author Utibeabasi Ekong <https://github.com/Xlaez>
+ */
+
 /* eslint-disable camelcase */
 const { createTransport } = require('nodemailer');
 const { email, smtp } = require('../../configs');
