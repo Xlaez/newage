@@ -5,13 +5,41 @@ const User = require('../../models/user.models');
 const { uniqueFiveDigits } = require('../../utils/randomGenerator.utils');
 const { getValueFromRedis, addToRedis } = require('../../libs/redis.libs');
 const { app } = require('../../configs');
+const paginateLabel = require('../../utils/paginationLabel.utils');
 
 const isUserInDb = async (email, username) => {
   return User.findOne({ $or: [{ email }, { username }] });
 };
 
-const getUserById = async (id) => {
-  return User.findById(id);
+const getUserById = async (id, removeField) => {
+  return User.findById(id).select([`-${removeField}`]);
+};
+
+const queryUsers = async ({ search, filter }, { limit, page, orderBy, sortedBy }) => {
+  const options = {
+    lean: true,
+    customLabels: paginateLabel,
+  };
+
+  let searchParam = { isAccountVerified: true };
+  if (search) {
+    searchParam = { $or: [{ username: { $regex: search, $options: 'i' } }, { email: { $regex: search, $options: 'i' } }] };
+  }
+
+  const users = await User.paginate(
+    {
+      searchParam,
+      ...filter,
+    },
+    {
+      ...(limit ? { limit } : { limit: 10 }),
+      page,
+      sort: { [orderBy]: sortedBy === 'asc' ? 1 : -1 },
+      ...options,
+      select: ['-password', '-updatedAt', '-isAccountVerified', '-__v'],
+    }
+  );
+  return users;
 };
 
 const createUser = async (data) => {
@@ -74,4 +102,5 @@ module.exports = {
   verifyAccount,
   updateUser,
   getUserById,
+  queryUsers,
 };
