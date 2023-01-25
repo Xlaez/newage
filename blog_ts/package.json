@@ -1,0 +1,43 @@
+{
+  "name": "owlfactory-using-typescript",
+  "version": "1.0.0",
+  "description": "Using Owl-factory with Node and TypeScript",
+  "main": "src/index.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kamounation/examples.git"
+  },
+  "keywords": [
+    "Owl-Factory",
+    "API",
+    "NodeTs"
+  ],
+  "author": "Ghostcod3r",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kamounation/examples/issues"
+  },
+  "homepage": "https://github.com/kamounation/examples#readme",
+  "dependencies": {
+    "bcrypt": "^5.1.0",
+    "cors": "^2.8.5",
+    "cross-env": "^7.0.3",
+    "dotenv": "^16.0.3",
+    "helmet": "^6.0.1",
+    "joi": "^17.7.0",
+    "mongoose": "^6.8.4",
+    "nodemailer": "^6.9.0",
+    "owl-factory": "^0.1.2"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.13",
+    "@types/helmet": "^4.0.0",
+    "@types/mongoose": "^5.11.97",
+    "@types/node": "^18.11.18",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^4.9.4"
+  }
+}

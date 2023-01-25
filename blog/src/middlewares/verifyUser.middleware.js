@@ -1,3 +1,6 @@
+/**
+ * @author Utibeabasi Ekong <https://github.com/Xlaez>
+ */
 const { httpStatus, catchAsync, AppRes } = require('owl-factory');
 const { verify } = require('jsonwebtoken');
 const { jwt } = require('../configs');

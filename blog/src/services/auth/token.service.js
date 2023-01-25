@@ -1,3 +1,7 @@
+/**
+ * @author Utibeabasi Ekong <https://github.com/Xlaez>
+ */
+
 const { sign, verify } = require('jsonwebtoken');
 const { jwt } = require('../../configs');
 

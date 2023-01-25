@@ -1,3 +1,6 @@
+/**
+ * @author Utibeabasi Ekong <https://github.com/Xlaez>
+ */
 const { config } = require('dotenv');
 const Joi = require('joi');
 const path = require('path');
@@ -22,6 +25,9 @@ const envVariableSchema = Joi.object()
     SMTP_HOST: Joi.string().required().description('smtp host'),
     SMTP_PORT: Joi.string().default(587),
     APP_NAME: Joi.string().default('appname'),
+    CLOUD_NAME: Joi.string().description('cloudinary account name'),
+    CLOUDINARY_API_KEY: Joi.string().description('cloudinary api key'),
+    CLOUDINARY_API_SECRET: Joi.string().description('cloudinary user secret'),
   })
   .unknown();
 
@@ -62,5 +68,10 @@ module.exports = {
   },
   app: {
     name: envVars.APP_NAME,
+  },
+  cloudinary: {
+    name: envVars.CLOUD_NAME,
+    key: envVars.CLOUDINARY_API_KEY,
+    secret: envVars.CLOUDINARY_API_SECRET,
   },
 };

@@ -1,3 +1,7 @@
+/**
+ * @author Utibeabasi Ekong <https://github.com/Xlaez>
+ */
+
 const password = (value, helpers) => {
   if (value.length < 6) {
     return helpers.message('password must be at least 6 characters');
