@@ -9,6 +9,7 @@ const {
   incrementComment,
   getCommentReplies,
   _getComments,
+  findByIdAndUpdate,
 } = require('../services/comment.service');
 const pick = require('../utils/pick.utils');
 // const { getSinglePost } = require('../services/post.service');
@@ -49,6 +50,8 @@ const deleteComment = catchAsync(async (req, res) => {
 const getReplies = catchAsync(async (req, res) => {
   const filter = pick(req.query, ['parentId']);
   const options = pick(req.query, ['sortBy', 'limit', 'page']);
+  options.populate = 'likedBy';
+  // TODO: remeber to delete the password field from the pagination return value
   const replies = await getCommentReplies(filter, options);
   if (!replies) throw new AppRes(httpStatus.NOT_FOUND, 'resource not found');
   res.status(httpStatus.OK).json(replies);
@@ -57,9 +60,38 @@ const getReplies = catchAsync(async (req, res) => {
 const getComments = catchAsync(async (req, res) => {
   const filter = pick(req.query, ['postId']);
   const options = pick(req.query, ['sortBy', 'limit', 'page']);
+  options.populate = 'likedBy';
+  // TODO: remeber to delete the password field from the pagination return value
   const comments = await _getComments(filter, options);
   if (!comments) throw new AppRes(httpStatus.NOT_FOUND, 'resource not found');
   res.status(httpStatus.OK).json(comments);
+});
+
+const updateComment = catchAsync(async (req, res) => {
+  const { id, body } = req.body;
+  const comment = await findByIdAndUpdate(id, { body });
+  if (!comment) throw new AppRes(httpStatus.INTERNAL_SERVER_ERROR, 'cannot update comment');
+  res.status(httpStatus.OK).send('comment updated');
+});
+
+const addLikes = catchAsync(async (req, res) => {
+  const { user } = req;
+  const comment = await findByIdAndUpdate(req.params.id, {
+    $inc: { likes: 1 },
+    $addToSet: { likedBy: user },
+  });
+  if (!comment) throw new AppRes(httpStatus.INTERNAL_SERVER_ERROR, 'cannot update comment');
+  res.status(httpStatus.OK).send('comment liked');
+});
+
+const removeLike = catchAsync(async (req, res) => {
+  const { user } = req;
+  const comment = await findByIdAndUpdate(req.params.id, {
+    $inc: { likes: -1 },
+    $pull: { likedBy: user },
+  });
+  if (!comment) throw new AppRes(httpStatus.INTERNAL_SERVER_ERROR, 'cannot update comment');
+  res.status(httpStatus.OK).send('comment unliked');
 });
 
 module.exports = {
@@ -67,4 +99,7 @@ module.exports = {
   deleteComment,
   getReplies,
   getComments,
+  updateComment,
+  addLikes,
+  removeLike,
 };

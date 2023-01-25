@@ -4,7 +4,7 @@
 
 const { catchAsync, AppRes, httpStatus } = require('owl-factory');
 const { uploadMany } = require('../libs/cloudinary.libs');
-const { uploadPost, updatePostWithId, deletPost, getSinglePost } = require('../services/post.service');
+const { uploadPost, updatePostWithId, deletPost, getSinglePost, queryPosts } = require('../services/post.service');
 
 const uploadNewPost = catchAsync(async (req, res) => {
   const { user, body, files } = req;
@@ -40,9 +40,17 @@ const getPost = catchAsync(async (req, res) => {
   res.status(httpStatus.OK).json(post);
 });
 
+const getPosts = catchAsync(async (req, res) => {
+  const { limit, page, orderBy, sortBy, search, filter } = req.query;
+  const posts = await queryPosts({ filter, search }, { page, limit, sortBy, orderBy });
+  if (!posts) throw new AppRes(httpStatus.NOT_FOUND, 'resource not found');
+  res.status(httpStatus.OK).json(posts);
+});
+
 module.exports = {
   uploadNewPost,
   updatePost,
   deletePost,
   getPost,
+  getPosts,
 };
