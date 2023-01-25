@@ -56,8 +56,21 @@ const getComments = {
 };
 
 const deleteComment = {
-  param: Joi.object().keys({
-    commentId: Joi.object().required(),
+  params: Joi.object().keys({
+    commentId: Joi.string().required(),
+  }),
+};
+
+const likeComment = {
+  params: Joi.object().keys({
+    id: Joi.string().required(),
+  }),
+};
+
+const updateComment = {
+  body: Joi.object().keys({
+    body: Joi.string().required(),
+    id: Joi.string().required(),
   }),
 };
 
@@ -69,4 +82,6 @@ module.exports = {
   deleteComment,
   getReplies,
   getComments,
+  updateComment,
+  likeComment,
 };
