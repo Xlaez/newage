@@ -26,6 +26,12 @@ const schema = new Schema(
       type: Number,
       default: 0,
     },
+    likedBy: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'users',
+      },
+    ],
     replyCount: {
       type: Number,
       default: 0,

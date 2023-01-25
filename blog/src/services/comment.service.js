@@ -9,11 +9,11 @@ const newComment = async (data) => {
 };
 
 const findById = async (id) => {
-  return Comment.findById(id).populate('author', 'username avatar _id').lean();
+  return Comment.findById(id).populate('author', 'username avatar _id').populate('likedBy', 'username avatar _id').lean();
 };
 
 const findByIdAndUpdate = async (id, body) => {
-  return Comment.findByIdAndUpdate(id, { body }).lean();
+  return Comment.findByIdAndUpdate(id, body).lean();
 };
 
 const getCommentReplies = async (filter, options) => {
