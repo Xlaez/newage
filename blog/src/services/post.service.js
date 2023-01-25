@@ -15,8 +15,8 @@ const uploadPost = async (data) => {
 };
 
 const updatePostWithId = async (id, data) => {
-  return Posts.updateOne({ _id: id }, data);update post Copyupdate post Copyupdate post Copy
-};update post Copy
+  return Posts.updateOne({ _id: id }, data);
+};
 
 const deletPost = async (id) => {
   return Posts.deleteOne({ _id: id });
