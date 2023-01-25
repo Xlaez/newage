@@ -15,7 +15,8 @@ const validateUser = catchAsync(async (req, res, next) => {
   const user = await User.findById(payload.sub);
   if (!user) return next(new AppRes(httpStatus.NOT_FOUND, 'user not found'));
   if (!user.isAccountVerified) return next(new AppRes(httpStatus.UNAUTHORIZED, 'please validate account'));
-  req.user = user;
+  req.user = user._id;
+  req.role = user.role;
   next();
 });
 
