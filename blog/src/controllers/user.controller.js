@@ -1,5 +1,9 @@
+/**
+ * @author Utibeabasi Ekong <https://github.com/Xlaez>
+ */
 const { catchAsync, AppRes } = require('owl-factory');
-const { updateUser, queryUsers, getUserById } = require('../services/auth/user.service');
+const { updateUser, queryUsers, getUserById, uploadAvatar } = require('../services/auth/user.service');
+const { uploadSingle } = require('../libs/cloudinary.libs');
 
 const updateProfile = catchAsync(async (req, res) => {
   const profile = await updateUser(req.user, req.body);
@@ -20,8 +24,16 @@ const getUser = catchAsync(async (req, res) => {
   res.status(200).json(profile);
 });
 
+const uploadUserAvatar = catchAsync(async (req, res) => {
+  const { file } = req;
+  const { url } = await uploadSingle(file.path);
+  await uploadAvatar(req.user, url);
+  res.status(200).send('uploaded');
+});
+
 module.exports = {
   updateProfile,
   getUsers,
   getUser,
+  uploadUserAvatar,
 };
