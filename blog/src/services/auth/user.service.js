@@ -99,6 +99,10 @@ const sendVerificationDigits = async (req, user) => {
   });
 };
 
+const uploadAvatar = async (_id, url) => {
+  return User.updateOne({ _id }, { avatar: url });
+};
+
 module.exports = {
   createUser,
   loginWithUsernameOrEmail,
@@ -107,4 +111,5 @@ module.exports = {
   updateUser,
   getUserById,
   queryUsers,
+  uploadAvatar,
 };
