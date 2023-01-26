@@ -1,10 +1,10 @@
 import { resolve } from 'path';
 import { readFileSync } from 'fs';
 import { compile } from 'handlebars';
-const mjml = require( 'mjml') // this one no gree use import 
+import mjml from 'mjml'
 
 const verifyAccount = readFileSync(
-   resolve(__dirname, '..')
+   resolve(__dirname, '../templates/verify-account.mjml')
 ).toString();
 
 const verifyAccountTemplate = compile(mjml(verifyAccount).html)
