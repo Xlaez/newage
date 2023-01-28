@@ -1,15 +1,13 @@
-import mongoose, { Schema, Document, Model } from 'mongoose';
-import  paginate from'mongoose-paginate-v2'
+import { compareSync, hashSync } from 'bcrypt';
+import mongoose, { Schema, Document, Model, plugin } from 'mongoose';
+import   paginate from 'mongoose-paginate-v2'
 
 type UserDocument = Document & {
    fullName: string,
+   username: string,
    email: string,
    password: string,
    isVerified: boolean,
-}
-
-type UserInput = {
-   fullName: UserDocument['fullName']
 }
 
 const UserSchema = new Schema(
@@ -19,6 +17,11 @@ const UserSchema = new Schema(
          required: true
       },
       email: {
+         type: Schema.Types.String,
+         unique: true,
+         required: true
+      },
+      username:{
          type: Schema.Types.String,
          unique: true,
          required: true
@@ -38,8 +41,22 @@ const UserSchema = new Schema(
    }
 );
 
-UserSchema.plugin(paginate)
+UserSchema.plugin(paginate);
+
+UserSchema.methods.doesPasswordMatch =  (password: string)=> {
+   const user : any = this;
+   return compareSync(password, user.password);
+ };
+ 
+ UserSchema.pre('save',  (next)=> {
+   const user: any = this;
+   if (user.isModified('password')) {
+     user.password =  hashSync(user.password, 11);
+   }
+   next();
+ });
+ 
 
 const User: Model<UserDocument> = mongoose.model<UserDocument>('User', UserSchema)
 
-export { User, UserInput, UserDocument };
+export { User,  UserDocument };

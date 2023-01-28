@@ -1,6 +1,6 @@
 import { sign, verify } from 'jsonwebtoken';
 
-const signToken = ( userId: any, exp: any, secret: string)=>{
+const signToken = ( userId: any, exp: any, secret: any)=>{
    
       const payload = {
          sub: userId,
