@@ -8,6 +8,4 @@ const paginationCustomLabels = {
 	totalPages: 'pageCount',
 };
 
-export {
-   paginationCustomLabels
-}
+export default paginationCustomLabels
