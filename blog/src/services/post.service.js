@@ -4,6 +4,7 @@
 
 const paginateLabel = require('../utils/paginationLabel.utils');
 const Posts = require('../models/post.models');
+const Post = require('../models/post.models');
 
 /**
  *
@@ -44,18 +45,41 @@ const queryPosts = async ({ filter, search }, { page, limit, sortBy, orderBy }) 
 
   const posts = await Posts.paginate(
     {
-      searchObj,
+      ...searchObj,
       ...filter,
-      populate: ('author', 'avatar username _id'),
     },
     {
       ...(limit ? { limit: +limit } : { limit: 15 }),
-      _page,
+      page: _page,
       sort: { [orderBy]: sortBy === 'asc' ? 1 : -1 },
       ...options,
+      populate: { path: 'author', select: 'avatar name username' },
     }
   );
   return posts;
+};
+
+const getUsersWhoLikedPost = async (postId, { page, limit, sortBy, orderBy }) => {
+  const options = {
+    lean: true,
+    customLabels: paginateLabel,
+  };
+  const _page = +page;
+
+  const users = await Post.paginate(
+    {
+      _id: postId,
+    },
+    {
+      ...(limit ? { limit: +limit } : { limit: 15 }),
+      page: _page,
+      sort: { [orderBy]: sortBy === 'asc' ? 1 : -1 },
+      ...options,
+      populate: { path: 'likedBy', select: 'avatar name username' },
+      select: ['likedBy', 'likes'],
+    }
+  );
+  return users;
 };
 
 module.exports = {
@@ -64,4 +88,5 @@ module.exports = {
   deletPost,
   getSinglePost,
   queryPosts,
+  getUsersWhoLikedPost,
 };
