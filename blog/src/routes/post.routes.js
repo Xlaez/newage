@@ -2,7 +2,17 @@
  * @author Utibeabasi Ekong <https://github.com/Xlaez>
  */
 const { Router } = require('owl-factory');
-const { uploadNewPost, updatePost, deletePost, getPost, getPosts } = require('../controllers/post.controller');
+const {
+  uploadNewPost,
+  updatePost,
+  deletePost,
+  getPost,
+  getPosts,
+  likePost,
+  unlikePost,
+  addViewsCount,
+  queryUsersWhoLikedPost,
+} = require('../controllers/post.controller');
 const {
   createComment,
   deleteComment,
@@ -33,6 +43,11 @@ class PostRouter {
     this.router.delete(`${this.path}/:id`, validate(postValidation.deletePost), verifyAcc, deletePost);
     this.router.get(`${this.path}/:id`, validate(postValidation.deletePost), verifyAcc, getPost);
     this.router.get(`${this.path}/:id`, validate(postValidation.deletePost), verifyAcc, getPost);
+    this.router.put(`${this.path}/like/:id`, validate(postValidation.deletePost), verifyAcc, likePost);
+    this.router.get(`${this.path}/likedBy/users`, verifyAcc, queryUsersWhoLikedPost);
+
+    this.router.purge(`${this.path}/unlike/:id`, validate(postValidation.deletePost), verifyAcc, unlikePost);
+    this.router.put(`${this.path}/views/:id`, validate(postValidation.deletePost), verifyAcc, addViewsCount);
 
     this.router.post(`${this.path}/comment`, validate(postValidation.createComment), verifyAcc, createComment);
     this.router.delete(`${this.path}/comment/:commentId`, validate(postValidation.deleteComment), verifyAcc, deleteComment);

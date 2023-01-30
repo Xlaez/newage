@@ -4,7 +4,14 @@
 
 const { catchAsync, AppRes, httpStatus } = require('owl-factory');
 const { uploadMany } = require('../libs/cloudinary.libs');
-const { uploadPost, updatePostWithId, deletPost, getSinglePost, queryPosts } = require('../services/post.service');
+const {
+  uploadPost,
+  updatePostWithId,
+  deletPost,
+  getSinglePost,
+  queryPosts,
+  getUsersWhoLikedPost,
+} = require('../services/post.service');
 
 const uploadNewPost = catchAsync(async (req, res) => {
   const { user, body, files } = req;
@@ -47,10 +54,38 @@ const getPosts = catchAsync(async (req, res) => {
   res.status(httpStatus.OK).json(posts);
 });
 
+const likePost = catchAsync(async (req, res) => {
+  const result = await updatePostWithId(req.params.id, { $addToSet: { likedBy: req.user }, $inc: { likes: 1 } });
+  if (result.modifiedCount === 0) throw new AppRes(httpStatus.INTERNAL_SERVER_ERROR, 'cannot add like');
+  res.status(httpStatus.OK).send('post liked');
+});
+
+const unlikePost = catchAsync(async (req, res) => {
+  const result = await updatePostWithId(req.params.id, { $pull: { likedBy: req.user }, $inc: { likes: -1 } });
+  if (result.modifiedCount === 0) throw new AppRes(httpStatus.INTERNAL_SERVER_ERROR, 'cannot unlike post');
+  res.status(httpStatus.OK).send('post unliked');
+});
+
+const addViewsCount = catchAsync(async (req, res) => {
+  const result = await updatePostWithId(req.params.id, { $inc: { views: 1 } });
+  if (result.modifiedCount === 0) throw new AppRes(httpStatus.INTERNAL_SERVER_ERROR, 'cannot unlike post');
+  res.status(httpStatus.OK).send('views updated');
+});
+
+const queryUsersWhoLikedPost = catchAsync(async (req, res) => {
+  const { limit, page, postId, sortBy, orderBy } = req.query;
+  const users = await getUsersWhoLikedPost(postId, { page, limit, sortBy, orderBy });
+  res.status(httpStatus.OK).json(users);
+});
+
 module.exports = {
   uploadNewPost,
   updatePost,
   deletePost,
   getPost,
   getPosts,
+  likePost,
+  unlikePost,
+  addViewsCount,
+  queryUsersWhoLikedPost,
 };

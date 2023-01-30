@@ -56,6 +56,22 @@ const schema = new Schema(
       instagram: String,
       medium: String,
     },
+    sentRequests: {
+      type: Number,
+      default: 0,
+    },
+    receivedRequests: {
+      type: Number,
+      default: 0,
+    },
+    followers: {
+      type: Number,
+      default: 0,
+    },
+    followings: {
+      type: Number,
+      default: 0,
+    },
   },
   {
     timestamps: true,
