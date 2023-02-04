@@ -21,7 +21,8 @@ const register = catchAsync( async(req: Request, res: Response)=>{
 const validate = catchAsync(async (req: Request, res: Response)=>{
    const user = verifyAccount(req.body.digits);
    res.status(httpStatus.OK).json({
-       message:"Sent"
+       message:"Sent",
+       token: user
    })
 });
 
@@ -42,9 +43,8 @@ const updatePassword = catchAsync(async (req: Request, res: Response)=>{
     res.status(httpStatus.OK).send('updated')
 });
 
-export {
+export default {
     register,
     validate,
-    sendVerificationDigits,
     updatePassword, login
 }
