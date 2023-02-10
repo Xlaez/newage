@@ -4,7 +4,6 @@ import { logger } from 'owl-factory';
 
 
 
-
 const connection = async () => {
 	const client = createClient({
 		url: redis.url,
@@ -17,25 +16,31 @@ const connection = async () => {
 };
 
 
-const addToRedis =  async (key: string, value: string, expiresIn = 60 * 10) => {
+const addToRedis =  async (key: any | object, value: any | number , expiresIn = 60 * 10)=> {
 	const redisClient = await connection();
-	return await redisClient.set(key, value, 'Ex', expiresIn);
+	return await redisClient.set(key, value, expiresIn);
 };
 
-const deleteFromRedis = async (key) => {
+const deleteFromRedis = async (key: any | object) => {
 	const redisClient = await connection();
 	try {
 		return redisClient.del(key);
-	} catch (error) {
+	} catch (error: any) {
 		throw new Error(error);
 	}
 };
 
-const getValueFromRedis = async (key) => {
+const getValueFromRedis = async (key: any | object ) => {
 	try {
 		const redisClient = await connection();
 		return redisClient.get(key);
-	} catch (error) {
+	} catch (error: any) {
 		throw new Error(error);
 	}
 };
+
+export {
+	addToRedis,
+	deleteFromRedis,
+	getValueFromRedis
+}

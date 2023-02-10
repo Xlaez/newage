@@ -1,5 +1,5 @@
 import { compareSync, hashSync } from 'bcrypt';
-import mongoose, { Schema, Document, Model, plugin } from 'mongoose';
+import mongoose, { Schema, Document, Model } from 'mongoose';
 import   paginate from 'mongoose-paginate-v2'
 
 type UserDocument = Document & {
