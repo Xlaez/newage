@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { catchAsync, AppRes  } from "owl-factory";
-import { updateUser, getUserById } from "../services/auth/user.service";
+import { updateUser, getUserById, queryUsers } from "../services/auth/user.service";
 
 
 const updateProfile = catchAsync(async (req: Request, res: Response)=>{
@@ -16,7 +16,15 @@ const getUser = catchAsync( async(req: Request, res: Response)=>{
    res.status(200).json(profile);
 })
 
+const getUsers = catchAsync(async (req: Request, res: Response)=>{
+   const { limit, page, sortedBy, orderBy, search, filter }: any = req.query;
+   const users = await queryUsers({ search, filter}, { limit: +limit, page: +page, orderBy, sortedBy})
+   if(!users) throw new AppRes(404, 'Not found')
+   res.status(200).json(users)
+})
+
 export {
    updateProfile,
-   getUser
+   getUser,
+   getUsers
 }
