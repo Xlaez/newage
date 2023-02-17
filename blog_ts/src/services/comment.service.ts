@@ -13,6 +13,10 @@ const updateComment = async (id: string, data: any)=>{
     return Comment.updateOne({ _id: id}).lean();
 };
 
+const getCommentReplies = async (filter: any, options: any)=>{
+    return Comment.find(filter, options);
+}
+
 const deleteComment = async (id: string, parentId: string, postId: string)=>{
     if(parentId){
         await Comment.findByIdAndUpdate(parentId, {
@@ -48,5 +52,6 @@ export {
     findComment,
     newComment,
     incrementComment,
-    updatePost
+    updatePost,
+    getCommentReplies
 }

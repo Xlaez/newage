@@ -4,7 +4,8 @@ import {
     incrementComment,
     findComment,
     updateComment,
-    deleteComment
+    deleteComment,
+    getCommentReplies
 } from "../services/comment.service";
 import pick from "../utils/pick.util";
 import {Request, Response} from "express";
@@ -38,13 +39,17 @@ const _deleteComment = catchAsync(async (req: Request, res: Response)=>{
     res.status(httpStatus.OK).json('Comment deleted')
 });
 
-/*const getReplies = catchAsync(async (req: Request, res: Response)=>{
+const getReplies = catchAsync(async (req: Request, res: Response)=>{
     const filter = pick(req.query, ['parentId']);
-})*/
+    const option = pick(req.query, ['sortBy', 'limit', 'page']);
+    const replies = await getCommentReplies(filter, option);
+    if(!replies) throw new AppRes(httpStatus.NOT_FOUND, 'Not Found');
+    res.status(httpStatus.OK).json(replies);
+})
 
 export {
     _deleteComment,
     createComment,
-
+    getReplies
 }
 
