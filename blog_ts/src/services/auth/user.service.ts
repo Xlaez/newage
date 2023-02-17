@@ -9,9 +9,34 @@ import { mailSender } from './email.service';
 import { User } from '../../models/user.model';
 import { uniqueFiveDigits } from '../../utils/randomGenerator.utils';
 import { app, email } from '../../config';
-//import paginateLabel from '../../utils/paginationLabel.util';
 import { compare } from 'bcrypt';
 import { addToRedis, getValueFromRedis } from '../../libs/redis.libs';
+import { PaginateOptions } from 'mongoose';
+
+const queryUsers = async (
+   { search, filter }: { search: string; filter: Object },
+   { limit, page, orderBy, sortedBy }: { limit: number; page: number; orderBy: string; sortedBy: string }
+ ) => {
+   
+ 
+   let searchParam: object = { isAccountVerified: true };
+   if (search) {
+     searchParam = { $or: [{ username: { $regex: search, $options: 'i' } }, { email: { $regex: search, $options: 'i' } }] };
+   }
+   const options = {
+      filter,
+      searchParam
+   }
+   const users = User
+                           .find(options)
+                           .skip(limit * (page - 1))
+                           .limit(limit)
+                           .sort({[orderBy]: sortedBy === 'asc' ? 1 : -1})
+                           .select(['-password', '-upatedAt', '-isVerified', '-_v'])
+   return users;
+ };
+ 
+
 
 const ifUser = (email: string, username: string)=>{
    return User.findOne({ $or: [{ email}, { username }]})
@@ -76,10 +101,13 @@ const verifyAccount = async (digits: number) => {
    }
 
 
+   
+
    export {
       createUser, loginUser,
       sendVerificationDigits,
       verifyAccount,
       updateUser,
       getUserById,
+      queryUsers
    }
