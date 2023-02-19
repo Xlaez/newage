@@ -3,13 +3,40 @@
  */
 
 import { httpStatus, AppRes } from 'owl-factory';
-import { signToken, verifyToken } from './token.service';
+import { Request } from 'express'
+import { signToken } from './token.service';
 import { mailSender } from './email.service';
-import { User, UserDocument } from '../../models/user.model';
+import { User } from '../../models/user.model';
 import { uniqueFiveDigits } from '../../utils/randomGenerator.utils';
 import { app, email } from '../../config';
-import paginateLabel from '../../utils/paginationLabel.util';
 import { compare } from 'bcrypt';
+import { addToRedis, getValueFromRedis } from '../../libs/redis.libs';
+import { PaginateOptions } from 'mongoose';
+
+const queryUsers = async (
+   { search, filter }: { search: string; filter: Object },
+   { limit, page, orderBy, sortedBy }: { limit: number; page: number; orderBy: string; sortedBy: string }
+ ) => {
+   
+ 
+   let searchParam: object = { isAccountVerified: true };
+   if (search) {
+     searchParam = { $or: [{ username: { $regex: search, $options: 'i' } }, { email: { $regex: search, $options: 'i' } }] };
+   }
+   const options = {
+      filter,
+      searchParam
+   }
+   const users = User
+                           .find(options)
+                           .skip(limit * (page - 1))
+                           .limit(limit)
+                           .sort({[orderBy]: sortedBy === 'asc' ? 1 : -1})
+                           .select(['-password', '-upatedAt', '-isVerified', '-_v'])
+   return users;
+ };
+ 
+
 
 const ifUser = (email: string, username: string)=>{
    return User.findOne({ $or: [{ email}, { username }]})
@@ -54,9 +81,33 @@ const loginUser = async( uniqueData: string, password: string)=>{
 };
 
 const verifyAccount = async (digits: number) => {
-   const value = 'hello'; //= await getValueFromRedis(digits.toString());
+   const value = await getValueFromRedis(digits.toString());
    if (!value) throw new AppRes(httpStatus.BAD_REQUEST, 'digits is wrong or has expired');
-   const user = await User.findOneAndUpdate({ email: value }, { isAccountVerified: true }, { new: true });
+   const user: any | null = await User.findOneAndUpdate({ email: value }, { isVerified: true }, { new: true });
    const token = signToken(user._id,  60 * 60 * 3, process.env.JWT_SECRET);
    return token;
  };
+
+ const sendVerificationDigits = async (req: Request, user: any)=>{
+      const digits = uniqueFiveDigits();
+      const link = `${req.protocol}://${req.get('host')}${req.url}`;
+      await addToRedis(digits.toString(), user.email.toString());
+      return mailSender( user.email, 'Verify Account', {
+         digits,
+         link,
+         name: user.username,
+         app_name: app.name
+      });
+   }
+
+
+   
+
+   export {
+      createUser, loginUser,
+      sendVerificationDigits,
+      verifyAccount,
+      updateUser,
+      getUserById,
+      queryUsers
+   }
