@@ -1,7 +1,7 @@
 version: '3'
 services:
-  owl-blog:
-    image: # kiama network image id from cloud repo
+  dolphjs-blog:
+    image: # dolphjs network image id from cloud repo
     ports:
       - 8081: 8081
   mongodb:
