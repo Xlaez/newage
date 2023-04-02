@@ -4,7 +4,7 @@
 
 const { Schema, model } = require('mongoose');
 const paginate = require('mongoose-paginate-v2');
-const { compare, hash } = require('bcrypt');
+const { compare, hash } = require('bcryptjs');
 
 const schema = new Schema(
   {
@@ -45,7 +45,7 @@ const schema = new Schema(
       required: false,
     },
     avatar: {
-      type: String, //cloudinary link
+      type: String,
     },
     social: {
       phone: String,

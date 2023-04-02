@@ -1,6 +1,6 @@
 const multer = require('multer');
 const path = require('path');
-const { httpStatus, AppRes } = require('owl-factory');
+const { httpStatus, AppRes } = require('@dolphjs/core');
 const allowedFileExtensions = require('../utils/allowedFileTypes.utils');
 
 const storage = multer.diskStorage({});

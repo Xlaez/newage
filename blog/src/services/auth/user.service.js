@@ -2,7 +2,7 @@
  * @author Utibeabasi Ekong <https://github.com/Xlaez>
  */
 
-const { AppRes, httpStatus } = require('owl-factory');
+const { AppRes, httpStatus } = require('@dolphjs/core');
 const tokenService = require('./token.service');
 const mailSender = require('./email.service');
 const User = require('../../models/user.models');

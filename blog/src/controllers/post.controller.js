@@ -2,7 +2,7 @@
  * @author Utibeabasi Ekong <https://github.com/Xlaez>
  */
 
-const { catchAsync, AppRes, httpStatus } = require('owl-factory');
+const { catchAsync, AppRes, httpStatus } = require('@dolphjs/core');
 const { uploadMany } = require('../libs/cloudinary.libs');
 const {
   uploadPost,
@@ -17,7 +17,7 @@ const uploadNewPost = catchAsync(async (req, res) => {
   const { user, body, files } = req;
 
   let uploadObj = { ...body, author: user };
-  if (body && files?.length) {
+  if (body && files.length) {
     const filePaths = files.map((file) => file.path);
     const image = await uploadMany(filePaths);
     uploadObj = { ...body, author: user, image };

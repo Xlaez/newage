@@ -1,5 +1,5 @@
-const { catchAsync, httpStatus, AppRes } = require('owl-factory');
-const { hashSync } = require('bcrypt');
+const { catchAsync, httpStatus, AppRes } = require('@dolphjs/core');
+const { hashSync } = require('bcryptjs');
 const {
   createUser,
   loginWithUsernameOrEmail,

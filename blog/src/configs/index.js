@@ -18,7 +18,7 @@ const envVariableSchema = Joi.object()
     JWT_SECRET: Joi.string().required().description('JWT secret key'),
     JWT_ACCESS_EXPIRATION_MINUTES: Joi.number().default(60).description('minutes after which access tokens expire'),
     REDIS_URL: Joi.string().required().description('Redis Connection String'),
-    DB_NAME: Joi.string().default('owl-blog'),
+    DB_NAME: Joi.string().default('dolph-blog'),
     EMAIL_USER: Joi.string().required().description('email account'),
     SMTP_USERNAME: Joi.string().required().description('smtp username'),
     SMTP_PASSWORD: Joi.string().required().description('smtp password'),
