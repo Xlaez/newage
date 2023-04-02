@@ -1,7 +1,7 @@
 /**
  * @author Utibeabasi Ekong <https://github.com/Xlaez>
  */
-const { catchAsync, AppRes } = require('owl-factory');
+const { catchAsync, AppRes } = require('@dolphjs/core');
 const { updateUser, queryUsers, getUserById, uploadAvatar } = require('../services/auth/user.service');
 const { uploadSingle } = require('../libs/cloudinary.libs');
 

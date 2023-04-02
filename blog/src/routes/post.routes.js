@@ -1,7 +1,8 @@
 /**
  * @author Utibeabasi Ekong <https://github.com/Xlaez>
  */
-const { Router } = require('owl-factory');
+const { Router } = require('@dolphjs/core');
+
 const {
   uploadNewPost,
   updatePost,

@@ -2,7 +2,8 @@
  * @author Utibeabasi Ekong <https://github.com/Xlaez>
  */
 
-const { Router } = require('owl-factory');
+const { Router } = require('@dolphjs/core');
+
 const { updateProfile, getUsers, getUser, uploadUserAvatar } = require('../controllers/user.controller');
 const validateUser = require('../middlewares/verifyUser.middleware');
 const validate = require('../validations/validate.validator');

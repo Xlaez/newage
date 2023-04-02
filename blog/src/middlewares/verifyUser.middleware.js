@@ -1,7 +1,7 @@
 /**
  * @author Utibeabasi Ekong <https://github.com/Xlaez>
  */
-const { httpStatus, catchAsync, AppRes } = require('owl-factory');
+const { httpStatus, catchAsync, AppRes } = require('@dolphjs/core');
 const { verify } = require('jsonwebtoken');
 const { jwt } = require('../configs');
 const User = require('../models/user.models');

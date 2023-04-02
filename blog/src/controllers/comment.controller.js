@@ -1,7 +1,7 @@
 /**
  * @author Utibeabasi Ekong <https://github.com/Xlaez>
  */
-const { catchAsync, AppRes, httpStatus } = require('owl-factory');
+const { catchAsync, AppRes, httpStatus } = require('@dolphjs/core');
 const {
   newComment,
   _deleteComment,

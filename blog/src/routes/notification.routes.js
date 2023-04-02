@@ -1,7 +1,7 @@
 /**
  * @author Utibeabasi Ekong <https://github.com/Xlaez>
  */
-const { Router } = require('owl-factory');
+const { Router } = require('@dolphjs/core');
 
 const validate = require('../validations/validate.validator');
 const notificationValidation = require('../validations/notification.validator');

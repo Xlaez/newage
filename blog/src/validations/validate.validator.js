@@ -3,7 +3,7 @@
  */
 
 const Joi = require('joi');
-const { httpStatus, AppRes } = require('owl-factory');
+const { httpStatus, AppRes } = require('@dolphjs/core');
 const pick = require('../utils/pick.utils');
 
 const validate = (schema) => (req, res, next) => {

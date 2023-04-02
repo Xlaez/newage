@@ -2,7 +2,7 @@
  * @author Utibeabasi Ekong <https://github.com/Xlaez>
  */
 
-const { AppRes, catchAsync, httpStatus } = require('owl-factory');
+const { AppRes, catchAsync, httpStatus } = require('@dolphjs/core');
 
 const { getOneNotification, getallUserNotification, setNotificationAsSeen } = require('../services/notification.service');
 
